@@ -1,15 +1,17 @@
 #ifndef VERIFICADOR_HPP
 #define VERIFICADOR_HPP
 
-#include <iostream>
+#include<string>
 
 class Verificador{
 
 	public:
-		Verificador(long int cpf);
+		Verificador(std::string cpf);
 	private:
 		Verificador();
 
 
 
 };
+
+#endif

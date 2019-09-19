@@ -1,10 +1,30 @@
 #include "verificador.hpp"
+#include "cliente.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
 
-Verificador::Verificador(long int entrada_cpf){
-	nome_arquivo = entrada_cpf + ".txt";
+using namespace std;
 
-	
+Verificador::Verificador(string entrada_cpf){
+	string cpf = entrada_cpf;
+	cpf.append(".txt");
+	string endereco = ".//db//clientes//";
+	endereco.append(cpf);
+
+	fstream arquivo_cliente;
+	arquivo_cliente.open(endereco);
+	if (arquivo_cliente.is_open()){
+		
+	}
+	else{
+		system("clear");
+		string temp_nome;
+		cout << "===========================================";
+		cout << "\t\t\t\tCadastro de novo Usuário";
+		cout << "===========================================";
+		cout << "Digite o nome do novo cliente: ";
+		cin >> temp_nome;
+		Cliente cliente(temp_nome, entrada_cpf);
+	}
 }

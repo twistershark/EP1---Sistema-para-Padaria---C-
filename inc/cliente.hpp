@@ -1,27 +1,28 @@
 #ifndef CLIENTE_HPP
 #define CLIENTE_HPP
-
-#include <iostream>  
+  
 #include <string>
-#include <fstream>
 
-
+using namespace std;
 
 class Cliente{
 
 	public:
 		
-		void set_nome();
-		string get_nome(){ 
-			return nome;
-		};
+		Cliente();
+		Cliente(string nome, string cpf);
+		~Cliente();
 
-		void set_cpf();
-		long int get_cpf();
+		void set_nome(string nome);
+		string get_nome();
+
+		void set_cpf(string cpf);
+		string get_cpf();
 
 
 	private:
-		std::string nome;
-		long int cpf;
+		string nome;
+		string cpf;
 };
 
+#endif

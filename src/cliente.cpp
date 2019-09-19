@@ -2,17 +2,29 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
 
-Cliente::Cliente(){
-	set_nome("");
-	set_cpf(0);
-}
-Cliente::Cliente(std::string nome, long int cpf){
-	set_nome(nome);
-	set_cpf(cpf);
-}
-Cliente::Cliente(long int cpf, std::string nome){
-	set_cpf(cpf);
-	set_nome(nome);
+void Cliente::set_nome(string nome){
+	this->nome = nome;
 }
 
+void Cliente::set_cpf(string cpf){
+	this->cpf = cpf;
+}
+
+string Cliente::get_nome(){
+	return nome;
+}
+
+string Cliente::get_cpf(){
+	return cpf;
+}
+
+Cliente::Cliente(string nome_in, string cpf_in){
+	nome = nome_in;
+	cpf = cpf_in;
+}
+
+Cliente::~Cliente(){
+	// Destrutor da classe cliente
+}
