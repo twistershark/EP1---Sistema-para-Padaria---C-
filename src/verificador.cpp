@@ -26,5 +26,6 @@ Verificador::Verificador(string entrada_cpf){
 		cout << "Digite o nome do novo cliente: ";
 		cin >> temp_nome;
 		Cliente cliente(temp_nome, entrada_cpf);
+		
 	}
 }
