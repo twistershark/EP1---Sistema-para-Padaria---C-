@@ -8,7 +8,7 @@ public:
 	GravaDados();
 	~GravaDados();
 
-	void escrever_dados();
+	virtual void escrever_dados();
 
 };
 

@@ -3,15 +3,21 @@
 
 #include <string>
 
+using namespace std;
+
 class Produtos{
 
 public:
 	Produtos();
-	Produtos(int categoria, std::string nome, float preco, int quantidade);
+	Produtos(int id, string categoria, string nome, float preco, int quantidade);
+	Produtos(string categoria, string nome, float preco, int quantidade);
 	~Produtos();
 
+	void set_id(int id);
+	int get_id();
+
 	void set_nome(std::string nome);
-	std::string get_nome();
+	string get_nome();
 
 	void set_preco(float preco);
 	float get_preco();
@@ -19,16 +25,17 @@ public:
 	void set_quantidade(int quantidade);
 	int get_quantidade();
 
-	void set_categoria(int categoria);
-	int get_categoria();
+	void set_categoria(string categoria);
+	string get_categoria();
 
-	void guardar_produto(int categoria, std::string nome, float preco, int quantidade);
+	void guardar_produto(int id, string categoria, string nome, float preco, int quantidade);
 
 private:
-	std::string nome;
+	int id;
+	string nome;
 	float preco;
 	int quantidade;
-	int categoria;
+	string categoria;
 
 };
 

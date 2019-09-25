@@ -32,8 +32,8 @@ Menu::Menu(){
 
 		Escolha escolha(valor);
  
-};
+}
 
 Menu::~Menu(){
-	cout << "\nFIM\n";
+	// Destrutor
 }

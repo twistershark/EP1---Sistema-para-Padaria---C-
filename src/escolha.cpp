@@ -3,7 +3,7 @@
 #include "criarprodutos.hpp"
 #include <string>
 #include <iostream>
-
+#include "venda.hpp"
 using namespace std;
 
 Escolha::Escolha(){
@@ -32,6 +32,7 @@ Escolha::Escolha(int escolha){
 		}
 	}
 }
+
 
 Escolha::~Escolha(){
 	// destrutor

@@ -7,12 +7,7 @@ public:
 	Venda();
 	~Venda();
 
-	void venda_salgados();
 
-	void venda_doces();
-
-	void venda_bebidas();
-	
 
 };
 

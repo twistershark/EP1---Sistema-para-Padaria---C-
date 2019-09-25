@@ -1,74 +1,55 @@
+#include "menu.hpp"
 #include "cliente.hpp"
 #include <iostream>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
+void Cliente::set_socio(char a){
+	this->socio = a;
+}
 
+char Cliente::get_socio(){
+	return socio;
+}
 
 void Cliente::set_nome(string nome){
 	this->nome = nome;
-}
-
-void Cliente::set_cpf(string cpf){
-	this->cpf = cpf;
 }
 
 string Cliente::get_nome(){
 	return nome;
 }
 
+void Cliente::set_cpf(string cpf){
+	this->cpf = cpf;
+}
+
 string Cliente::get_cpf(){
 	return cpf;
 }
 
-void Cliente::set_quant_compras_catSal(int catSal_in){
-	totalComprasCatSal = catSal_in;
-}
-
-int Cliente::get_quant_compras_catSal(){
-	return totalComprasCatSal;
-}
-
-void Cliente::set_quant_compras_catDoc(int catDoc_in){
-	totalComprasCatDoc = catDoc_in;
-}
-
-int Cliente::get_quant_compras_catDoc(){
-	return totalComprasCatDoc;
-}
-
-void Cliente::set_quant_compras_catBeb(int catBeb_in){
-	totalComprasCatBeb = catBeb_in;
-}
-		
-int Cliente::get_quant_compras_catBeb(){
-	return totalComprasCatBeb;
-}
-
-
-
-Cliente::Cliente(string nome_in, string cpf_in){
+Cliente::Cliente(char socio_in, string nome_in, string cpf_in){
+	socio = socio_in;
 	nome = nome_in;
 	cpf = cpf_in;
-	totalComprasCatSal = 0;
-	totalComprasCatDoc = 0;
-	totalComprasCatBeb = 0;
-}
 
-Cliente::Cliente(string nome_in, string cpf_in, int catSal_in, int catDoc_in, int catBeb_in){
-	nome = nome_in;
-	cpf = cpf_in;
-	totalComprasCatSal = catSal_in;
-	totalComprasCatDoc = catDoc_in;
-	totalComprasCatBeb = catBeb_in;
+	escrever_dados();
+
 }
 
 Cliente::~Cliente(){
-	// Destrutor da classe cliente
+	escrever_dados();
 }
 
 void Cliente::escrever_dados(){
-	
+	ofstream file;
+	file.open("./db/clientes/" + cpf + ".txt");
+	if(file.is_open()){
+		file << socio << endl;
+		file << nome << endl;
+		file << cpf << endl;
+		file.close();
+	}
 }
-

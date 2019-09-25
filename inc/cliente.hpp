@@ -11,11 +11,11 @@ class Cliente : public GravaDados{
 	public:
 		
 		Cliente();
-		Cliente(string nome, string cpf);
-		Cliente(string nome_in, string cpf_in, int catSal_in, int catDoc_in, int catBeb_in);
+		Cliente(char socio, string nome, string cpf);
 		~Cliente();
 
-		void escrever_dados();
+		void set_socio(char a);
+		char get_socio();
 
 		void set_nome(string nome);
 		string get_nome();
@@ -23,21 +23,13 @@ class Cliente : public GravaDados{
 		void set_cpf(string cpf);
 		string get_cpf();
 
-		void set_quant_compras_catSal(int catSal_in);
-		int get_quant_compras_catSal();
-
-		void set_quant_compras_catDoc(int catDoc_in);
-		int get_quant_compras_catDoc();
-
-		void set_quant_compras_catBeb(int catBeb_in);
-		int get_quant_compras_catBeb();
+		void escrever_dados();
 
 	private:
+		char socio;
 		string nome;
 		string cpf;
-		int totalComprasCatSal;
-		int totalComprasCatDoc;
-		int totalComprasCatBeb;
+
 };
 
 #endif
