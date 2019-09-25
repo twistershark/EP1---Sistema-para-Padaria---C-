@@ -20,9 +20,9 @@ Verificador::Verificador(string entrada_cpf){
 	else{
 		system("clear");
 		string temp_nome;
-		cout << "===========================================";
-		cout << "\t\t\t\tCadastro de novo Usuário";
-		cout << "===========================================";
+		cout << "============================================================" << endl;
+		cout << "\t\t\tCadastro de novo Usuário\t\t\t" << endl;
+		cout << "============================================================" << endl;
 		cout << "Digite o nome do novo cliente: ";
 		cin >> temp_nome;
 		Cliente cliente(temp_nome, entrada_cpf);

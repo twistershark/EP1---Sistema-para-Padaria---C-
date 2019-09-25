@@ -14,5 +14,4 @@ GravaDados::~GravaDados(){
 }
 
 void GravaDados::escrever_dados(){
-	
 }
