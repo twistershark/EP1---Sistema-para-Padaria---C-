@@ -1,3 +1,4 @@
+#include "vectorprodutos.hpp"
 #include "escolha.hpp"
 #include "verificador.hpp"
 #include "criarprodutos.hpp"
@@ -28,7 +29,8 @@ Escolha::Escolha(int escolha){
 			CriarProdutos novo;
 		}
 		else if (esc == 2){
-			// editar estoque
+			VectorProdutos atualizar;
+			atualizar.atualizarQuantidade();
 		}
 	}
 }
