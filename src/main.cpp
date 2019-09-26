@@ -84,12 +84,12 @@ int main(){
 					
 					//Instanciando um cliente que já é sócio
 					
-					Cliente cliente(temp_socio, temp_nome, temp_cpf);
+					Cliente* cliente = new Cliente(temp_socio, temp_nome, temp_cpf);
 
 					cout << "Pressione ENTER para continuar..." << endl;
 					getchar(); getchar(); // Pausando o sistema
 
-					//Venda venda(*cliente);
+					Venda venda(cliente);
 				}
 
 				else if(temp_socio == 'N'){
@@ -105,9 +105,9 @@ int main(){
 
 					// Instanciando Cliente
 
-					Cliente cliente(temp_socio, temp_nome, temp_cpf);
+					Cliente* cliente = new Cliente(temp_socio, temp_nome, temp_cpf);
 
-					//Venda venda(*cliente);
+					Venda venda(cliente);
 				}
 			}
 
@@ -139,8 +139,8 @@ int main(){
 
 		  		// INSTANCIANDO O NOVO CLIENTE
 
-				Cliente cliente(temp_socio, temp_nome, cpf);
-				//Venda venda(*cliente);
+				Cliente* cliente = new Cliente(temp_socio, temp_nome, cpf);
+				Venda venda(cliente);
 			}
 
 			break;
