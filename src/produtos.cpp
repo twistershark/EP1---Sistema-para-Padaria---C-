@@ -93,10 +93,10 @@ string Produtos::get_categoria(){
 
 void Produtos::guardar_produto(int id, string categoria, string nome, float preco, int quantidade){
 	ofstream produto;
-	string endereco = ".//db//produtos//";
-	endereco.append(to_string(id));
-	endereco.append(".txt");
-	produto.open(endereco);
+	string end = ".//db//produtos//";
+	end.append(to_string(id));
+	end.append(".txt");
+	produto.open(end);
 
 	if(produto.is_open()){
 		produto << id << endl;

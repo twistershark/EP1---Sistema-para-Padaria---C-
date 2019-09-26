@@ -9,6 +9,7 @@ using namespace std;
 
 
 void Carrinho::add_produto(){
+
 	int temp_id;
 	string temp_cat;
 	string temp_nome;
@@ -46,10 +47,11 @@ void Carrinho::add_produto(){
 }
 
 void Carrinho::totaldacompra(){
+	system("clear");
 
 	// Produtos no carrinho
 
-	cout << "\t Produtos no carrinho:" << endl;
+	cout << "\t Produtos no carrinho:\n" << endl;
 	cout << "Nome\tQuantidade\tPreco\n";
 	for (unsigned int i = 0; i < carrinho.size(); i++){
 		cout << carrinho[i].get_nome() << "\t" << carrinho[i].get_quantidade() << "\t" << carrinho[i].get_preco() << endl;
@@ -65,5 +67,8 @@ void Carrinho::totaldacompra(){
 	}
 	cout << "O total da compra é R$ ";
 	cout << total;
-	cout << "Deseja efetuar a compra de todos os produtos no carrinho?";
+
+
+	
+	cout << "\nDeseja efetuar a compra de todos os produtos no carrinho?";
 	}

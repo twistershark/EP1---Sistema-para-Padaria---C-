@@ -1,12 +1,12 @@
 #ifndef VENDA_HPP
 #define VENDA_HPP
+#include "cliente.hpp"
 
 class Venda{
 
 public:
-	Venda();
+	Venda(Cliente *);
 	~Venda();
-
 
 
 };

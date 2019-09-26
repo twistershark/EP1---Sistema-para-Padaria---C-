@@ -1,6 +1,4 @@
 #include "criarprodutos.hpp"
-#include "menu.hpp"
-
 
 #include <fstream>
 #include <iostream>
@@ -35,7 +33,7 @@ CriarProdutos::CriarProdutos(){
 		CriarProdutos();
 	}
 	else if(escolha == 2){
-		Menu(); 
+
 	}
 }
 CriarProdutos::~CriarProdutos(){

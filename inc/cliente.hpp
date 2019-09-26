@@ -25,6 +25,7 @@ class Cliente : public GravaDados{
 
 		void escrever_dados();
 
+		Cliente get_cliente();
 	private:
 		char socio;
 		string nome;
