@@ -10,9 +10,10 @@
 
 using namespace std;
 
-vector<Produtos> carrinho;
 
 Venda::Venda(Cliente * cliente){
+	
+
 	system("clear");
 
 	cout << "==================================================" << endl;
@@ -56,8 +57,10 @@ void Venda::add_produto(){
 	arquivo.open(endereco);
 	if(arquivo.is_open()){
 		while (arquivo >> temp_id >> temp_cat >> temp_nome >> temp_preco >> temp_quant){
+			cout << "ARQUIVO ABRIU!!!!"<< endl;
 			temp_quant = compra_quantidade;
 			carrinho.push_back(Produtos(temp_id, temp_cat, temp_nome, temp_preco, temp_quant));
+			cout << carrinho[0].get_nome()<< endl;
 		}
 	}
 

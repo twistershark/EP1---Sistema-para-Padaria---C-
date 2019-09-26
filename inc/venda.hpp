@@ -1,7 +1,6 @@
 #ifndef VENDA_HPP
 #define VENDA_HPP
 #include "cliente.hpp"
-#include <vector>
 #include "produtos.hpp"
 
 class Venda{
@@ -11,7 +10,8 @@ public:
 	void add_produto();
 	void totaldacompra();
 	void salvarcompras(Cliente *);
-
+private:
+	std::vector<Produtos *> carrinho;
 };
 
 #endif

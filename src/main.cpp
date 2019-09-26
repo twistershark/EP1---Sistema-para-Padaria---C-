@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 
-
+#include "produtos.hpp"
 #include "venda.hpp"
 #include "cliente.hpp"
 #include "vectorprodutos.hpp"
@@ -12,6 +12,7 @@ using namespace std;
 
 int main(){
 
+	vector<Produtos> carrinho;
 	// INICIO DO SISTEMA DA PADARIA
 
 	// MENU
