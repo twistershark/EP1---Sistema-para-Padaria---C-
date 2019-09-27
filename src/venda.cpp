@@ -10,9 +10,16 @@
 
 using namespace std;
 
+void Venda::set_socio(Cliente* cliente){
+	this->socio = cliente->get_socio();
+}
+
+char Venda::get_socio(){
+	return socio;
+}
 
 Venda::Venda(Cliente * cliente){
-	
+	set_socio(cliente);
 
 	system("clear");
 
@@ -27,12 +34,12 @@ Venda::Venda(Cliente * cliente){
 
 	vector.mostraProdutos();
 	add_produto();
-	salvarcompras(cliente);
+	//salvarcompras(cliente);
 
 }
 
 void Venda::add_produto(){
-
+	cin.clear();
 	int temp_id;
 	string temp_cat;
 	string temp_nome;
@@ -46,21 +53,25 @@ void Venda::add_produto(){
 	cout << "Quantidade desse produto que o cliente deseja comprar: ";
 
 	int compra_quantidade = 0;
+	int quantidade_estoque = 0;
 	cin >> compra_quantidade;
 
 	// Adicionando produtos ao Carrinho
-
 	fstream arquivo;
+
+	string endid = to_string(temp_id);
 	string endereco = "./db/produtos/";
-	endereco += temp_id;
-	endereco += ".txt";
+	endereco.append(endid);
+	endereco.append(".txt");
+	
 	arquivo.open(endereco);
 	if(arquivo.is_open()){
 		while (arquivo >> temp_id >> temp_cat >> temp_nome >> temp_preco >> temp_quant){
-			cout << "ARQUIVO ABRIU!!!!"<< endl;
+			
+			quantidade_estoque = temp_quant;
 			temp_quant = compra_quantidade;
-			carrinho.push_back(Produtos(temp_id, temp_cat, temp_nome, temp_preco, temp_quant));
-			cout << carrinho[0].get_nome()<< endl;
+			quantidades.push_back(quantidade_estoque);
+			carrinho.push_back(new Produtos(temp_id, temp_cat, temp_nome, temp_preco, temp_quant));
 		}
 	}
 
@@ -79,29 +90,82 @@ void Venda::add_produto(){
 void Venda::totaldacompra(){
 	system("clear");
 
-	// Produtos no carrinho
+	// PRODUTOS NO CARRINHO
+
 	cout << "\t Produtos no carrinho:\n" << endl;
-	cout << "Nome\tQuantidade\tPreco\n";
+	cout << "  Nome\tQuantidade\tPreco\n\n";
 	for (unsigned int i = 0; i < carrinho.size(); i++){
-		cout << carrinho[i].get_nome() << "\t" << carrinho[i].get_quantidade() << "\t" << carrinho[i].get_preco() << endl;
+		cout << "-> " << carrinho[i]->get_nome() << "\t\t" << carrinho[i]->get_quantidade() << "\t" << carrinho[i]->get_preco() << endl;
+		cout << endl;
 	}
 
-	//Total de compras
+	//TOTAL DE COMPRAS
 
 	float total = 0;
 	float calculo = 0;
 	for (unsigned int i = 0; i < carrinho.size(); i++){
-		calculo = carrinho[i].get_preco() * carrinho[i].get_quantidade();
+		calculo = carrinho[i]->get_preco() * carrinho[i]->get_quantidade();
 		total += calculo;
 	}
-	cout << "O total da compra é R$ ";
+	cout << "O total da compra é de R$ ";
 	cout << total;
+	cout << endl;
 
+	if (socio == 'S'){
+		cout << "Cliente é sócio! Por tanto, o valor total da compra com desconto de 15% é: ";
+		total = total - total * 0.15;
+		cout << total;
+	}
 
+	// PROCESSO DE FINALIZAÇÃO DE COMPRA
+
+	cout << "\n\nDeseja concluir a compra de todos os produtos no carrinho? (S/n): " << endl;
 	
-	cout << "\nDeseja efetuar a compra de todos os produtos no carrinho?";
+	cin.clear();
+	char entrada;
+	int teste = 0;
+	cin >> entrada;
+	if(toupper(entrada) == 'S'){
+		
+		//FINALIZAR COMPRA
+
+		for (unsigned int j = 0; j < carrinho.size(); j++){
+			
+			// ANALISANDO QUANTIDADE EM ESTOQUE
+
+			if(quantidades[j] < carrinho[j]->get_quantidade()){
+				teste = 1;				
+			}else if ((quantidades[j] >= carrinho[j]->get_quantidade())){
+
+				int remover = quantidades[j] - carrinho[j]->get_quantidade();
+				carrinho[j]->set_quantidade(remover);
+
+				carrinho[j]->guardar_produto(carrinho[j]->get_id(), carrinho[j]->get_categoria(), carrinho[j]->get_nome(),
+					carrinho[j]->get_preco(), carrinho[j]->get_quantidade()); 
+			}
+			if(teste == 0){
+				cout << "Compra finalizada com sucesso!" << endl;
+				//FIM DA COMPRA
+			}else if(teste == 1){
+				cout << "ERRO! Você comprou uma quantidade maior do que a presente no estoque. Finalizando compra..." << endl;
+			}
+			
+		}
+	}		
+
+	else if(toupper(entrada) == 'N'){
+		cout << "Deseja adicionar mais algum produto? (1 = Sim / 2 = Finalizar programa):";
+		int escolha;
+		cin >> escolha;
+		if (escolha == 1){
+			add_produto();
+		}
+		else if(escolha == 2){
+			//Fazer nada
+		}
+	}
 }
 
-void Venda::salvarcompras(Cliente* cliente){
-	cliente->escrever_dados();
-}
+//void Venda::salvarcompras(Cliente* cliente){
+	//cliente->escrever_dados();
+//}

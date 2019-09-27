@@ -16,10 +16,9 @@ Produtos::Produtos(int id, string categoria, string nome, float preco, int quant
 	this->preco = preco;
 	this->quantidade = quantidade;
 
-	Produtos::guardar_produto(id, categoria, nome, preco, quantidade);
 }
 
-Produtos::Produtos(string categoria, string nome, float preco, int quantidade){
+void Produtos::Criar_Produtos(string categoria, string nome, float preco, int quantidade){
 	// Atribuindo ID ao novo produto
 	fstream contadorid;
 	int id_contador;

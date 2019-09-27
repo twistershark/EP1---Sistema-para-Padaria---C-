@@ -23,7 +23,8 @@ CriarProdutos::CriarProdutos(){
 	cin >> quantidade_in;
 	cout << "\n\n";
 
-	Produtos produto(categoria_in, nome_in, preco_in, quantidade_in);
+	Produtos produto;
+	produto.Criar_Produtos(categoria_in, nome_in, preco_in, quantidade_in);
 
 	system("clear");
 	cout << "Produto adicionado ao estoque com sucesso!\n";

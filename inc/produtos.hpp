@@ -10,7 +10,8 @@ class Produtos{
 public:
 	Produtos();
 	Produtos(int id, string categoria, string nome, float preco, int quantidade);
-	Produtos(string categoria, string nome, float preco, int quantidade);
+
+	void Criar_Produtos(string categoria, string nome, float preco, int quantidade);
 	~Produtos();
 
 	void set_id(int id);
