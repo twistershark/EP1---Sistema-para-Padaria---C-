@@ -12,6 +12,7 @@ public:
 	~VectorProdutos();
 	void mostraProdutos();
 	void atualizarQuantidade();
+private:
 	vector<Produtos> listaprodutos;
 
 };

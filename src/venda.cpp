@@ -10,6 +10,28 @@
 
 using namespace std;
 
+//TEMPLATE
+
+template <typename T1>
+
+T1 getInput(){
+    while(true){
+    T1 valor;
+    cin >> valor;
+    if(cin.fail()){
+        cin.clear();
+        cin.ignore(32767,'\n');
+        cout << "Entrada inválida! Insira novamente: " << endl;
+    }
+    else{
+        cin.ignore(32767,'\n');
+        return valor;
+    }
+    }
+}
+//FIM DO TEMPLATE
+
+
 void Venda::set_socio(Cliente* cliente){
 	this->socio = cliente->get_socio();
 }
@@ -40,7 +62,7 @@ Venda::Venda(Cliente * cliente){
 
 void Venda::add_produto(){
 	cin.clear();
-	int temp_id;
+	
 	string temp_cat;
 	string temp_nome;
 	float temp_preco;
@@ -48,13 +70,13 @@ void Venda::add_produto(){
 
 	cout << "\nDigite o ID do produto que o cliente deseja comprar: ";
 
-	cin >> temp_id;
+	int temp_id = getInput<int>();
 
 	cout << "Quantidade desse produto que o cliente deseja comprar: ";
 
-	int compra_quantidade = 0;
+	int compra_quantidade = getInput<int>();
 	int quantidade_estoque = 0;
-	cin >> compra_quantidade;
+	
 
 	// Adicionando produtos ao Carrinho
 	fstream arquivo;
@@ -77,8 +99,8 @@ void Venda::add_produto(){
 
 	cout << "\nProduto adicionado ao carrinho com sucesso!" << endl;
 	cout << "Deseja adicionar outro produto ao carrinho? (S/n): ";
-	char e;
-	cin >> e;
+	char e = getInput<char>();
+	
 	if(toupper(e) == 'S'){
 		add_produto();
 	}
@@ -122,9 +144,9 @@ void Venda::totaldacompra(){
 	cout << "\n\nDeseja concluir a compra de todos os produtos no carrinho? (S/n): " << endl;
 	
 	cin.clear();
-	char entrada;
+	
 	int teste = 0;
-	cin >> entrada;
+	char entrada = getInput<char>();
 	if(toupper(entrada) == 'S'){
 		
 		//FINALIZAR COMPRA
@@ -140,8 +162,7 @@ void Venda::totaldacompra(){
 				int remover = quantidades[j] - carrinho[j]->get_quantidade();
 				carrinho[j]->set_quantidade(remover);
 
-				carrinho[j]->guardar_produto(carrinho[j]->get_id(), carrinho[j]->get_categoria(), carrinho[j]->get_nome(),
-					carrinho[j]->get_preco(), carrinho[j]->get_quantidade()); 
+				carrinho[j]->escrever_dados(); 
 			}
 			if(teste == 0){
 				cout << "Compra finalizada com sucesso!" << endl;
@@ -155,8 +176,8 @@ void Venda::totaldacompra(){
 
 	else if(toupper(entrada) == 'N'){
 		cout << "Deseja adicionar mais algum produto? (1 = Sim / 2 = Finalizar programa):";
-		int escolha;
-		cin >> escolha;
+		int escolha = getInput<int>();
+		
 		if (escolha == 1){
 			add_produto();
 		}
@@ -166,6 +187,3 @@ void Venda::totaldacompra(){
 	}
 }
 
-//void Venda::salvarcompras(Cliente* cliente){
-	//cliente->escrever_dados();
-//}

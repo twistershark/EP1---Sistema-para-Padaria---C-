@@ -1,18 +1,17 @@
 #ifndef PRODUTOS_HPP
 #define PRODUTOS_HPP
-
+#include "gravadados.hpp"
 #include <string>
-#include <vector>
 
 using namespace std;
 
-class Produtos{
+class Produtos: public GravaDados{
 
 public:
 	Produtos();
 	Produtos(int id, string categoria, string nome, float preco, int quantidade);
 
-	void Criar_Produtos(vector<string> categoria, string nome, float preco, int quantidade);
+	void Criar_Produtos(string categoria, string nome, float preco, int quantidade);
 	~Produtos();
 
 	void set_id(int id);
@@ -30,7 +29,7 @@ public:
 	void set_categoria(string categoria);
 	string get_categoria();
 
-	void guardar_produto(int id, string categoria, string nome, float preco, int quantidade);
+	void escrever_dados();
 
 private:
 	int id;

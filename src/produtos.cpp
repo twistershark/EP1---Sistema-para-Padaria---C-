@@ -8,7 +8,7 @@
 using namespace std;
 
 Produtos::Produtos(){
-	//Cronstrutor
+	//Construtor
 }
 
 Produtos::Produtos(int id, string categoria, string nome, float preco, int quantidade){
@@ -20,7 +20,7 @@ Produtos::Produtos(int id, string categoria, string nome, float preco, int quant
 
 }
 
-void Produtos::Criar_Produtos(vector<string> categorias, string nome, float preco, int quantidade){
+void Produtos::Criar_Produtos(string categoria, string nome, float preco, int quantidade){
 	// Atribuindo ID ao novo produto
 	fstream contadorid;
 	int id_contador;
@@ -37,18 +37,17 @@ void Produtos::Criar_Produtos(vector<string> categorias, string nome, float prec
 			atualizarcontador << id_final;
 		}
 	}
+
 	// Fim de atribuição de ID ao novo produto
 
-	for (unsigned int i = 0; i < categorias.size(); i++){
-		cout << "TESTE DE CATEGORIA " << categorias[i] << endl; 
 		this->id = id_contador;
-		this->categoria = categorias[i];
+		this->categoria = categoria;
 		this->nome = nome;
 		this->preco = preco;
 		this->quantidade = quantidade;
 
-		Produtos::guardar_produto(id, categoria, nome, preco, quantidade);
-	}
+		escrever_dados();
+	
 }
 
 Produtos::~Produtos(){
@@ -95,21 +94,19 @@ string Produtos::get_categoria(){
 	return categoria;
 }
 
-void Produtos::guardar_produto(int id, string categoria, string nome, float preco, int quantidade){
+void Produtos::escrever_dados(){
 	ofstream produto;
 	string end = "./db/produtos/";
-	end += categoria;
-	end += "/";
 	end.append(to_string(id));
 	end.append(".txt");
 	produto.open(end);
 
 	if(produto.is_open()){
-		produto << id << endl;
-    	produto << categoria << endl;
-    	produto << nome << endl;
-    	produto << fixed << setprecision(2) << preco << endl;
-    	produto << quantidade << endl;
+		produto << get_id() << endl;
+    	produto << get_categoria() << endl;
+    	produto << get_nome() << endl;
+    	produto << fixed << setprecision(2) << get_preco() << endl;
+    	produto << get_quantidade() << endl;
     	produto.close();
   }
 

@@ -10,8 +10,8 @@ public:
 	CriarProdutos();
 	~CriarProdutos();
 
-	vector<string> CriarCategorias();
-	void CriarPastas(vector<string>&);
+	string CriarCategorias();
+
 
 };
 

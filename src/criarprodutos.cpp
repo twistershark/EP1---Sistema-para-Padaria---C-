@@ -1,4 +1,5 @@
 #include "criarprodutos.hpp"
+#include "produtos.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -9,47 +10,73 @@
 
 using namespace std;
 
+//TEMPLATE
+
+template <typename T1>
+
+T1 getInput(){
+    while(true){
+    T1 valor;
+    cin >> valor;
+    if(cin.fail()){
+        cin.clear();
+        cin.ignore(32767,'\n');
+        cout << "Entrada inválida! Insira novamente: " << endl;
+    }
+    else{
+        cin.ignore(32767,'\n');
+        return valor;
+    }
+    }
+}
+//FIM DO TEMPLATE
+
+
+
 CriarProdutos::CriarProdutos(){
 	
-	string nome_in;
-	float preco_in;
-	int quantidade_in;
-	int escolha = 0;
 
 	system("clear");
 
 	cout << "\t*** MODO CRIAÇÃO DE PRODUTOS ***\n" << endl;
 	
-	vector<string> cat_produto = CriarCategorias();
+	string cat_produto = CriarCategorias();
 
 	cout << "\n\nInsira o nome do produto\n";
 	
 	cout << "Nome: ";
+	string nome_in;
 	getline(cin >> ws, nome_in);
 	
 	cout << "Preço: R$ ";
-	cin >> preco_in;
+	float preco_in = getInput<float>();
 	
 	cout << "Quantidade: ";
-	cin >> quantidade_in;
+	int quantidade_in = getInput<int>();
 	
 	cout << "\n\n";
 
 	Produtos produto;
 	produto.Criar_Produtos(cat_produto, nome_in, preco_in, quantidade_in);
 
-	system("clear");
+	//system("clear");
 	
 	cout << "Produto adicionado ao estoque com sucesso!\n";
 	
 	cout << "Deseja adicionar outro produto? (1) Sim / (2) Não:" << endl;
 	
-	cin >> escolha;
+	int escolha = getInput<int>();
 	if (escolha == 1){
 		CriarProdutos();
 	}
 	else if(escolha == 2){
 
+	}
+	else {
+		do{
+			cout << "\nEntrada inválida! Insira o número 1 ou 2: ";
+			escolha = getInput<int>();
+		}while(escolha < 1 || escolha > 2);
 	}
 }
 
@@ -60,14 +87,12 @@ CriarProdutos::~CriarProdutos(){
 
 
 
-vector<string> CriarProdutos::CriarCategorias(){
+string CriarProdutos::CriarCategorias(){
 	
 	// ABRIR ARQUIVO COM NOME DAS CATEGORIAS JÁ CRIADAS 
-	vector<string> cat_criar;
-	vector<string> cat_produto;
 	vector<string> categorias;
 	
-
+	 // ***** CORRIGIR DEPOIS DE IMPLEMENTAR
 	string nome_cat;
 	fstream cat;
 	cat.open("./db/etc/categorias.txt");
@@ -75,6 +100,7 @@ vector<string> CriarProdutos::CriarCategorias(){
 		while(cat >> nome_cat){
 			categorias.push_back(nome_cat);
 		}
+		cat.close();
 	}
 	
 	// LISTANDO CATEGORIAS PARA O USUÁRIO
@@ -87,60 +113,21 @@ vector<string> CriarProdutos::CriarCategorias(){
 
 	
 	
+	
 	// CRIANDO OU REUTILIZANDO CATEGORIA JÁ CRIADA
 
-	cout << "Para você utilizar alguma categoria já criada ou criar uma nova, basta escrever o nome da categoria (NÃO USE ESPAÇOS): ";
+	cout << endl;
+	cout << "Escreva o nome da categoria que deseja utilizar ou criar." << endl;
+	cout << "Caso seja mais de uma categoria, separe as categorias com um ESPAÇO." << endl;
+	cout << "Categorias: ";
 
-	string entrada = "1";
-
+	string entrada;
 	getline(cin >> ws, entrada);
 
-	while(entrada != "0"){
-		
-		// transformando entrada para uppercase
-		for(unsigned int l = 0; l < entrada.length(); l++){
-			entrada[l] = toupper(entrada[l]);	
-		}
-        
-    	// fim da transformação
-
-		unsigned int verificador = 0;
-
-		for (unsigned int k = 0; k < categorias.size(); k++){
-
-			if(entrada == categorias[k]){
-				cat_produto.push_back(entrada);
-			}else if(entrada != categorias[k]){
-				verificador += 1;
-			}
-		
-		}
-
-		if(verificador == categorias.size()){
-			cat_criar.push_back(entrada);
-		}
-	
-	cout << "Caso deseje usar mais de uma categoria no mesmo produto, digite o nome da próxima categoria. Caso contrário, digite zero: " << endl;
-	getline(cin >> ws, entrada);
-	
+	// transformando entrada para uppercase
+	for(unsigned int l = 0; l < entrada.length(); l++){
+		entrada[l] = toupper(entrada[l]);	
 	}
 
-	// CRIANDO PASTAS DAS NOVAS CATEGORIAS
-
-	CriarPastas(cat_criar);
-
-	return cat_produto;
-	
-	//
-}
-
-
-void CriarProdutos::CriarPastas(vector<string>& categorias_new){
-
-	for (unsigned int i = 0; i < categorias_new.size(); i++){
-		string path = "mkdir teste";
-		//path += tostring(categorias_new[i]);
-		system(("mkdir ./db/produtos/" + categorias_new[i]).c_str());
-	}
-
+	return entrada;
 }

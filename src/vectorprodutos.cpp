@@ -8,6 +8,27 @@
 
 using namespace std;
 
+//TEMPLATE
+
+template <typename T1>
+
+T1 getInput(){
+    while(true){
+    T1 valor;
+    cin >> valor;
+    if(cin.fail()){
+        cin.clear();
+        cin.ignore(32767,'\n');
+        cout << "Entrada inválida! Insira novamente: " << endl;
+    }
+    else{
+        cin.ignore(32767,'\n');
+        return valor;
+    }
+    }
+}
+//FIM DO TEMPLATE
+
 
 VectorProdutos::VectorProdutos(){
 	// Descobrir quantidade de produtos
@@ -66,8 +87,9 @@ void VectorProdutos::atualizarQuantidade(){
 	}
 	cout << "\nDigite o ID do produto no qual deseja atualizar: ";
 
-	int temp_id;
-	cin >> temp_id;
+	
+	int temp_id = getInput<int>();
+	
 	
 	for (unsigned int i = 0; i < listaprodutos.size(); i++){
 		if (listaprodutos[i].get_id() == temp_id){
@@ -77,20 +99,19 @@ void VectorProdutos::atualizarQuantidade(){
 
 			cout << "Digite quantas unidades desse produto você deseja adicionar ao estoque: ";
 			
-			int temp_quant;
-			cin >> temp_quant;
+			int temp_quant = getInput<int>();
+			
 			
 			temp_quant = temp_quant + listaprodutos[i].get_quantidade();
 			listaprodutos[i].set_quantidade(temp_quant);
 
-			listaprodutos[i].guardar_produto(listaprodutos[i].get_id(), listaprodutos[i].get_categoria(), 
-				listaprodutos[i].get_nome(), listaprodutos[i].get_preco(), listaprodutos[i].get_quantidade());
+			listaprodutos[i].escrever_dados();
 		}
 	}
 	cout << "Deseja atualizar estoque de outro produto? (S/n): ";
 	
-	char e = 'p';
-	cin >> e;
+	char e = getInput<char>();
+	
 	
 	if(toupper(e) == 'S'){
 		atualizarQuantidade();

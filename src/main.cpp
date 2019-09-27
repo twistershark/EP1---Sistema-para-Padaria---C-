@@ -10,14 +10,34 @@
 
 using namespace std;
 
+// TEMPLATE DE ENTRADA DE DADOS
+
+template <typename T1>
+
+T1 getInput(){
+    while(true){
+    T1 valor;
+    cin >> valor;
+    if(cin.fail()){
+        cin.clear();
+        cin.ignore(32767,'\n');
+        cout << "Entrada inválida! Insira novamente: " << endl;
+    }
+    else{
+        cin.ignore(32767,'\n');
+        return valor;
+    }
+    }
+}
+
+
+
 int main(){
 
 	vector<Produtos> carrinho;
 	// INICIO DO SISTEMA DA PADARIA
 
 	// MENU
-
-	int escolha = -1;
 
 	system("clear");
 	cout << "=======================================================================" << endl;
@@ -33,7 +53,7 @@ int main(){
 	cout << "\t \t (0) - Sair\n";
 	cout << "\t \t Sua Escolha: ";
 	
-	cin >> escolha;
+	int escolha = getInput<int>();
 	
 	cout << "\n \n \n \n";
 	
@@ -51,7 +71,7 @@ int main(){
 		case 1:{
 		
 		string cpf;
-		cout << "Digite o CPF do cliente: ";
+		cout << "Digite o CPF do cliente (somente números): ";
 		cin >> cpf;
 
 		// VERIFICANDO SE O CLIENTE JÁ EXISTE
@@ -72,7 +92,7 @@ int main(){
 				string temp_cpf;
 				string texto;
 				
-				char e;
+				
 				
 				// ATRIBUINDO VALORES DO ARQUIVO À VARIÁVEIS TEMPORÁRIAS
 				for(int linha = 1; getline(arq_cliente, texto) && linha <=3; linha++){
@@ -98,7 +118,7 @@ int main(){
 
 					cout << "Dados carregados com sucesso! Esse cliente não é sócio" << endl;
 					cout << "Cliente deseja se tornar sócio agora? (S/n): ";
-					cin >> e;
+					char e = getInput<char>();
 					if(toupper(e) == 'S'){
 						temp_socio = 'S';
 					} else if (toupper(e) == 'N'){
@@ -131,8 +151,8 @@ int main(){
 				
 				cout << "Esse Cliente deseja se tornar sócio? (S/n): ";
 		  		
-		  		char e;
-		  		cin >> e;
+		  		
+		  		char e = getInput<char>();
 		  			if (toupper(e) == 'S'){
 		  				temp_socio = 'S';
 		  			} else if(toupper(e) == 'N'){
@@ -151,16 +171,22 @@ int main(){
 
 			system("clear");
 
-			int esc = 0;
+			
 			cout << "Digite o número associado a sua escolha" << endl;
 			cout << "(1) Adicionar novo produto\n(2) Editar estoque de produto existente" << endl;
-			cin >> esc;
+			int esc = getInput<int>();
 			if(esc == 1){
 				CriarProdutos novo;
 			}
 			else if (esc == 2){
 				VectorProdutos atualizar;
 				atualizar.atualizarQuantidade();
+			}
+			else { 
+				do{
+					cout << "\nEntrada inválida! Insira o número 1 ou 2: ";
+					esc = getInput<int>();
+				}while(esc < 1 || esc > 2);
 			}
 			break;
 		}

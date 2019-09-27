@@ -14,10 +14,12 @@ public:
 	void set_socio(Cliente *);
 	char get_socio();
 	void totaldacompra();
-	//void salvarcompras(Cliente *);
+
+
+private:
 	vector<Produtos *> carrinho;
 	vector<int> quantidades;
-private:
+	
 	char socio;	
 };
 
