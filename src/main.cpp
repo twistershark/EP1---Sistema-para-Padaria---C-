@@ -55,9 +55,10 @@ int main(){
 		cin >> cpf;
 
 		// VERIFICANDO SE O CLIENTE JÁ EXISTE
-			cpf += ".txt";
+			string end_cpf = cpf;
+			end_cpf += ".txt";
 			string end_clientes = "./db/clientes/";
-			end_clientes += cpf;
+			end_clientes += end_cpf;
 
 			// TENTANDO ABRIR ARQUIVO PARA VER SE RETORNA TRUE
 

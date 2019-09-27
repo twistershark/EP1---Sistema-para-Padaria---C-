@@ -2,6 +2,8 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
+#include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -18,7 +20,7 @@ Produtos::Produtos(int id, string categoria, string nome, float preco, int quant
 
 }
 
-void Produtos::Criar_Produtos(string categoria, string nome, float preco, int quantidade){
+void Produtos::Criar_Produtos(vector<string> categorias, string nome, float preco, int quantidade){
 	// Atribuindo ID ao novo produto
 	fstream contadorid;
 	int id_contador;
@@ -37,13 +39,16 @@ void Produtos::Criar_Produtos(string categoria, string nome, float preco, int qu
 	}
 	// Fim de atribuição de ID ao novo produto
 
-	this->id = id_contador;
-	this->categoria = categoria;
-	this->nome = nome;
-	this->preco = preco;
-	this->quantidade = quantidade;
+	for (unsigned int i = 0; i < categorias.size(); i++){
+		cout << "TESTE DE CATEGORIA " << categorias[i] << endl; 
+		this->id = id_contador;
+		this->categoria = categorias[i];
+		this->nome = nome;
+		this->preco = preco;
+		this->quantidade = quantidade;
 
-	Produtos::guardar_produto(id, categoria, nome, preco, quantidade);
+		Produtos::guardar_produto(id, categoria, nome, preco, quantidade);
+	}
 }
 
 Produtos::~Produtos(){
@@ -92,7 +97,9 @@ string Produtos::get_categoria(){
 
 void Produtos::guardar_produto(int id, string categoria, string nome, float preco, int quantidade){
 	ofstream produto;
-	string end = ".//db//produtos//";
+	string end = "./db/produtos/";
+	end += categoria;
+	end += "/";
 	end.append(to_string(id));
 	end.append(".txt");
 	produto.open(end);

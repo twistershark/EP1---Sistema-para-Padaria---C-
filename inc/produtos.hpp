@@ -2,6 +2,7 @@
 #define PRODUTOS_HPP
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -11,7 +12,7 @@ public:
 	Produtos();
 	Produtos(int id, string categoria, string nome, float preco, int quantidade);
 
-	void Criar_Produtos(string categoria, string nome, float preco, int quantidade);
+	void Criar_Produtos(vector<string> categoria, string nome, float preco, int quantidade);
 	~Produtos();
 
 	void set_id(int id);
