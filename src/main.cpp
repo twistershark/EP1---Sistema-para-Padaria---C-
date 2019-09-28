@@ -158,6 +158,18 @@ int main(){
 		  			} else if(toupper(e) == 'N'){
 		  				temp_socio = 'N';
 		  			}
+		  			else{
+		  				do{
+		  					cout << "Escolha inválida! Insira o digito correto conforme a escolha: ";
+		  					e = getInput<char>();
+		  				}while(e != 'S' || e != 'N');
+		  				
+		  				if (toupper(e) == 'S'){
+		  					temp_socio = 'S';
+		  				} else if(toupper(e) == 'N'){
+		  					temp_socio = 'N';
+		  				}
+		  			}
 
 		  		// INSTANCIANDO O NOVO CLIENTE
 
@@ -196,3 +208,4 @@ int main(){
 	}
 	// FIM DO SWITCH CASE DO MENU
 }
+

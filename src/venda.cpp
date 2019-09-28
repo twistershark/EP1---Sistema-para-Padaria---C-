@@ -31,8 +31,11 @@ T1 getInput(){
 }
 //FIM DO TEMPLATE
 
+string Venda::get_cpf(){
+	return cpf;
+}
 
-void Venda::set_socio(Cliente* cliente){
+void Venda::set_infocliente(Cliente* cliente){
 	this->socio = cliente->get_socio();
 }
 
@@ -41,7 +44,8 @@ char Venda::get_socio(){
 }
 
 Venda::Venda(Cliente * cliente){
-	set_socio(cliente);
+	this->cpf = cliente->get_cpf();
+	set_infocliente(cliente);
 
 	system("clear");
 
@@ -56,7 +60,7 @@ Venda::Venda(Cliente * cliente){
 
 	vector.mostraProdutos();
 	add_produto();
-	//salvarcompras(cliente);
+
 
 }
 
@@ -92,8 +96,8 @@ void Venda::add_produto(){
 			
 			quantidade_estoque = temp_quant;
 			temp_quant = compra_quantidade;
-			quantidades.push_back(quantidade_estoque);
-			carrinho.push_back(new Produtos(temp_id, temp_cat, temp_nome, temp_preco, temp_quant));
+			this->quantidades.push_back(quantidade_estoque);
+			this->carrinho.push_back(new Produtos(temp_id, temp_cat, temp_nome, temp_preco, temp_quant));
 		}
 	}
 
@@ -107,6 +111,17 @@ void Venda::add_produto(){
 	else if(toupper(e) == 'N'){
 		totaldacompra();
 	}
+	else{
+		cout << "Entrada inválida! Digite novamente (S/n): ";
+
+		e = getInput<char>();
+		if(toupper(e) == 'S'){
+		add_produto();
+		}
+		else if(toupper(e) == 'N'){
+		totaldacompra();
+	}
+	}
 }
 
 void Venda::totaldacompra(){
@@ -116,8 +131,8 @@ void Venda::totaldacompra(){
 
 	cout << "\t Produtos no carrinho:\n" << endl;
 	cout << "  Nome\tQuantidade\tPreco\n\n";
-	for (unsigned int i = 0; i < carrinho.size(); i++){
-		cout << "-> " << carrinho[i]->get_nome() << "\t\t" << carrinho[i]->get_quantidade() << "\t" << carrinho[i]->get_preco() << endl;
+	for (unsigned int i = 0; i < this->carrinho.size(); i++){
+		cout << "-> " << this->carrinho[i]->get_nome() << "\t\t" << this->carrinho[i]->get_quantidade() << "\t" << this->carrinho[i]->get_preco() << endl;
 		cout << endl;
 	}
 
@@ -125,15 +140,15 @@ void Venda::totaldacompra(){
 
 	float total = 0;
 	float calculo = 0;
-	for (unsigned int i = 0; i < carrinho.size(); i++){
-		calculo = carrinho[i]->get_preco() * carrinho[i]->get_quantidade();
+	for (unsigned int i = 0; i < this->carrinho.size(); i++){
+		calculo = this->carrinho[i]->get_preco() * this->carrinho[i]->get_quantidade();
 		total += calculo;
 	}
 	cout << "O total da compra é de R$ ";
 	cout << total;
 	cout << endl;
 
-	if (socio == 'S'){
+	if (this->socio == 'S'){
 		cout << "Cliente é sócio! Por tanto, o valor total da compra com desconto de 15% é: ";
 		total = total - total * 0.15;
 		cout << total;
@@ -151,28 +166,45 @@ void Venda::totaldacompra(){
 		
 		//FINALIZAR COMPRA
 
-		for (unsigned int j = 0; j < carrinho.size(); j++){
+		for (unsigned int j = 0; j < this->carrinho.size(); j++){
 			
 			// ANALISANDO QUANTIDADE EM ESTOQUE
 
-			if(quantidades[j] < carrinho[j]->get_quantidade()){
+			if(this->quantidades[j] < this->carrinho[j]->get_quantidade()){
 				teste = 1;				
-			}else if ((quantidades[j] >= carrinho[j]->get_quantidade())){
-
-				int remover = quantidades[j] - carrinho[j]->get_quantidade();
-				carrinho[j]->set_quantidade(remover);
-
-				carrinho[j]->escrever_dados(); 
 			}
-			if(teste == 0){
-				cout << "Compra finalizada com sucesso!" << endl;
+		}
+
+		//CASO TENHO QUANTIDADE SUFICIENTE NO ESTOQUE
+		if(teste == 0){
+
+			for(unsigned int w = 0; w < this->carrinho.size(); w++){
+				int remover = this->quantidades[w] - this->carrinho[w]->get_quantidade();
+				this->carrinho[w]->set_quantidade(remover);
+				this->carrinho[w]->escrever_dados(); 
+			}
+			
+			cout << "\n\n\n CPF: " << get_cpf() << endl;
+			/*ofstream salvarCatCompradas;
+			string path = "./db/compras/" + get_cpf() + ".txt";
+
+			salvarCatCompradas.open(path);
+			if(salvarCatCompradas.is_open()){
+				for(unsigned int k = 0; k < this->carrinho.size(); k++){
+					for(int z = 1; z <= this->quantidades[k]; z++){
+						salvarCatCompradas << this->carrinho[k]->get_categoria() << endl;	
+					} // fim do loop de quantidade
+						
+				}// fim do loop de cada produto
+				cout << "\n\n\n\nFUNCIONOU!1\n\n\n";
+			}*/// fim do if is open
+
+			cout << "Compra finalizada com sucesso!" << endl;
 				//FIM DA COMPRA
 			}else if(teste == 1){
 				cout << "ERRO! Você comprou uma quantidade maior do que a presente no estoque. Finalizando compra..." << endl;
 			}
-			
-		}
-	}		
+	} // Compra finalizada	
 
 	else if(toupper(entrada) == 'N'){
 		cout << "Deseja adicionar mais algum produto? (1 = Sim / 2 = Finalizar programa):";
@@ -184,6 +216,21 @@ void Venda::totaldacompra(){
 		else if(escolha == 2){
 			//Fazer nada
 		}
+
+
+		else{ // Entrada inválida
+			do{
+				cout << "Escolha inválida! digite novamente 1 ou 2: ";
+				escolha = getInput<int>();
+			}while(escolha < 1 || escolha > 2);
+			if (escolha == 1){
+			add_produto();
+			}
+			else if(escolha == 2){
+				//Fazer nada
+			}
+		}
 	}
-}
+
+} //Fim do método TotalCompras
 

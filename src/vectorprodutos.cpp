@@ -45,19 +45,26 @@ VectorProdutos::VectorProdutos(){
 	//Fim da descoberta de quantidade de produtos
 
 	ifstream pasta;
+	
 	int id;
-	string categoria;
 	int quantidade;
-	string nome;
 	float preco;
+	string categoria;
+	string nome;
+	string texto;
 
 	for(int i = 1; i <= contador_id; i++){
 
 		pasta.open("./db/produtos/" + to_string(i) + ".txt");
 		if(pasta.is_open()){
-			while(pasta >> id >> categoria >> nome >> preco >> quantidade){
-
+			for(int linha = 1; getline(pasta, texto) && linha <=5; linha++){
+				if(linha == 1) id = stoi(texto);
+				if(linha == 2) categoria = texto;
+				if(linha == 3) nome = texto;
+				if(linha == 4) preco = stof(texto);
+				if(linha == 5) quantidade = stoi(texto);
 			}
+
 			listaprodutos.push_back(Produtos(id, categoria, nome, preco, quantidade));
 			pasta.close();
 		}	
@@ -65,24 +72,25 @@ VectorProdutos::VectorProdutos(){
 	
 }
 
+
 VectorProdutos::~VectorProdutos(){
 	// Destrutor
 }
 
 void VectorProdutos::mostraProdutos(){
 	cout << "\t*** Lista de Produtos ***\n" << endl;
-	cout << "Categoria\t(ID)Nome\t\tPreço\n" << endl;
+	cout << "(ID)Nome  **  Preço  **  Quantidade(estoque)\n" << endl;
 	for (unsigned int i = 0; i < listaprodutos.size(); i++){
-		cout << listaprodutos[i].get_categoria() << "\t\t" << "(" << listaprodutos[i].get_id() << ")" 
-		<<listaprodutos[i].get_nome() << "\t\t" << "R$ " << fixed << setprecision(2) << listaprodutos[i].get_preco() << endl;
+		cout << "(" << listaprodutos[i].get_id() << ")" 
+		<<listaprodutos[i].get_nome() << "  **  " << "R$ " << fixed << setprecision(2) << listaprodutos[i].get_preco() << "  **  " << listaprodutos[i].get_quantidade() << endl;
 	}
 }
 
 void VectorProdutos::atualizarQuantidade(){
 	cout << "\t*** Lista de Produtos ***\n" << endl;
-	cout << "Categoria\t(ID)Nome\t\tQuantidade\n" << endl;
+	cout << "(ID)Nome\t\tQuantidade\n" << endl;
 	for (unsigned int i = 0; i < listaprodutos.size(); i++){
-		cout << listaprodutos[i].get_categoria() << "\t\t" << "(" << listaprodutos[i].get_id() << ")" 
+		cout << "(" << listaprodutos[i].get_id() << ")" 
 		<<listaprodutos[i].get_nome() << "\t\t" << listaprodutos[i].get_quantidade() << endl;
 	}
 	cout << "\nDigite o ID do produto no qual deseja atualizar: ";
