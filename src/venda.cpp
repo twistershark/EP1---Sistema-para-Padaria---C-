@@ -43,6 +43,26 @@ char Venda::get_socio(){
 	return socio;
 }
 
+Venda::Venda(Cliente * cliente, vector<string>& recomendados){
+	this->cpf = cliente->get_cpf();
+	set_infocliente(cliente);
+
+	system("clear");
+
+	cout << "==================================================" << endl;
+	cout << "\n \n";
+	cout << "\t \t  MODO RECOMENDAÇÃO \t \t \t \t";
+	cout << "\n \n";
+	cout << "==================================================" << endl;
+	cout << "\n \n \n ";
+
+	VectorProdutos vector;
+
+	vector.mostraProdutos(recomendados);
+	add_produto();
+
+}
+
 Venda::Venda(Cliente * cliente){
 	this->cpf = cliente->get_cpf();
 	set_infocliente(cliente);
@@ -85,6 +105,7 @@ void Venda::add_produto(){
 	// Adicionando produtos ao Carrinho
 	fstream arquivo;
 
+	string fileText;
 	string endid = to_string(temp_id);
 	string endereco = "./db/produtos/";
 	endereco.append(endid);
@@ -92,13 +113,20 @@ void Venda::add_produto(){
 	
 	arquivo.open(endereco);
 	if(arquivo.is_open()){
-		while (arquivo >> temp_id >> temp_cat >> temp_nome >> temp_preco >> temp_quant){
-			
-			quantidade_estoque = temp_quant;
-			temp_quant = compra_quantidade;
-			this->quantidades.push_back(quantidade_estoque);
-			this->carrinho.push_back(new Produtos(temp_id, temp_cat, temp_nome, temp_preco, temp_quant));
+
+		for(int lines = 1; getline(arquivo, fileText) && lines <=5; lines++){
+			if(lines == 1) temp_id = stoi(fileText);
+			if(lines == 2) temp_cat = fileText;
+			if(lines == 3) temp_nome = fileText;
+			if(lines == 4) temp_preco = stof(fileText);
+			if(lines == 5) temp_quant = stoi(fileText);
 		}
+			
+		quantidade_estoque = temp_quant;
+		temp_quant = compra_quantidade;
+		this->quantidades.push_back(quantidade_estoque);
+		this->carrinho.push_back(new Produtos(temp_id, temp_cat, temp_nome, temp_preco, temp_quant));
+		
 	}
 
 	cout << "\nProduto adicionado ao carrinho com sucesso!" << endl;
@@ -160,9 +188,9 @@ void Venda::totaldacompra(){
 	
 	cin.clear();
 	
-	int teste = 0;
-	char entrada = getInput<char>();
-	if(toupper(entrada) == 'S'){
+	int test = 0;
+	char in = getInput<char>();
+	if(toupper(in) == 'S'){
 		
 		//FINALIZAR COMPRA
 
@@ -171,49 +199,68 @@ void Venda::totaldacompra(){
 			// ANALISANDO QUANTIDADE EM ESTOQUE
 
 			if(this->quantidades[j] < this->carrinho[j]->get_quantidade()){
-				teste = 1;				
+				test = 1;				
 			}
 		}
 
 		//CASO TENHO QUANTIDADE SUFICIENTE NO ESTOQUE
-		if(teste == 0){
+		if(test == 0){
 
-			for(unsigned int w = 0; w < this->carrinho.size(); w++){
-				int remover = this->quantidades[w] - this->carrinho[w]->get_quantidade();
-				this->carrinho[w]->set_quantidade(remover);
-				this->carrinho[w]->escrever_dados(); 
+
+			vector<string> categoriasjuntas;
+			ifstream getexistente;
+			string temp_recebecat;
+			string path_1 = "./db/compras/" + get_cpf() + ".txt";
+			getexistente.open(path_1);
+			if (getexistente.is_open()){
+				while(getexistente >> temp_recebecat){
+					categoriasjuntas.push_back(temp_recebecat);
+				}
+				getexistente.close();
 			}
-			
-			cout << "\n\n\n CPF: " << get_cpf() << endl;
-			/*ofstream salvarCatCompradas;
+
+			for(unsigned int cont1 = 0; cont1 < this->carrinho.size(); cont1++){
+					for(int cont2 = 1; cont2 <= this->carrinho[cont1]->get_quantidade(); cont2++){
+						categoriasjuntas.push_back(this->carrinho[cont1]->get_categoria());	
+					} // fim do loop de quantidade
+				}// fim do loop de cada produto
+
+
+
+
+			ofstream purchaseInfo;
 			string path = "./db/compras/" + get_cpf() + ".txt";
 
-			salvarCatCompradas.open(path);
-			if(salvarCatCompradas.is_open()){
-				for(unsigned int k = 0; k < this->carrinho.size(); k++){
-					for(int z = 1; z <= this->quantidades[k]; z++){
-						salvarCatCompradas << this->carrinho[k]->get_categoria() << endl;	
-					} // fim do loop de quantidade
-						
-				}// fim do loop de cada produto
-				cout << "\n\n\n\nFUNCIONOU!1\n\n\n";
-			}*/// fim do if is open
+			purchaseInfo.open(path);
+			if(purchaseInfo.is_open()){
+				for (unsigned int ask = 0; ask < categoriasjuntas.size(); ask++){
+					purchaseInfo << categoriasjuntas[ask] << endl;
+				}
+				
+			} // fim do if is open
+
+			for(unsigned int t = 0; t < this->carrinho.size(); t++){
+				int remover = this->quantidades[t] - this->carrinho[t]->get_quantidade();
+				this->carrinho[t]->set_quantidade(remover);
+				this->carrinho[t]->escrever_dados(); 
+			}
+			
 
 			cout << "Compra finalizada com sucesso!" << endl;
 				//FIM DA COMPRA
-			}else if(teste == 1){
+			}else if(test == 1){
 				cout << "ERRO! Você comprou uma quantidade maior do que a presente no estoque. Finalizando compra..." << endl;
 			}
 	} // Compra finalizada	
 
-	else if(toupper(entrada) == 'N'){
+	else if(toupper(in) == 'N'){
 		cout << "Deseja adicionar mais algum produto? (1 = Sim / 2 = Finalizar programa):";
-		int escolha = getInput<int>();
+		int choice = getInput<int>();
 		
-		if (escolha == 1){
+		if (choice == 1){
 			add_produto();
 		}
-		else if(escolha == 2){
+		else if(choice == 2){
 			//Fazer nada
 		}
 
@@ -221,12 +268,12 @@ void Venda::totaldacompra(){
 		else{ // Entrada inválida
 			do{
 				cout << "Escolha inválida! digite novamente 1 ou 2: ";
-				escolha = getInput<int>();
-			}while(escolha < 1 || escolha > 2);
-			if (escolha == 1){
+				choice = getInput<int>();
+			}while(choice < 1 || choice > 2);
+			if (choice == 1){
 			add_produto();
 			}
-			else if(escolha == 2){
+			else if(choice == 2){
 				//Fazer nada
 			}
 		}

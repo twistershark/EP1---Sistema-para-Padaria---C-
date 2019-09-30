@@ -11,6 +11,7 @@ public:
 	VectorProdutos();
 	~VectorProdutos();
 	void mostraProdutos();
+	void mostraProdutos(vector<string>& recomendacao);
 	void atualizarQuantidade();
 private:
 	vector<Produtos> listaprodutos;

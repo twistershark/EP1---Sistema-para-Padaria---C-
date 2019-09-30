@@ -34,7 +34,7 @@ VectorProdutos::VectorProdutos(){
 	// Descobrir quantidade de produtos
 
 	ifstream contador;
-	int contador_id;
+	int contador_id = 0;
 	contador.open("./db/etc/contadorid.txt");
 	if (contador.is_open()){
 		while(contador >> contador_id){
@@ -128,3 +128,29 @@ void VectorProdutos::atualizarQuantidade(){
 
 	}
 }
+
+void VectorProdutos::mostraProdutos(vector<string>& recomendacao){
+	cout << "\t*** Lista de Produtos ***\n" << endl;
+	cout << "(ID)Nome  **  Preço  **  Quantidade(estoque)\n" << endl;
+
+	int contador = 1;
+	while(contador <= 10){
+		for(unsigned int ppp = 0; ppp < recomendacao.size(); ppp++){ // para cada categoria
+			for(unsigned int jjj = 0; jjj < listaprodutos.size(); jjj++){ // testando cada produto
+				if(listaprodutos[jjj].get_categoria() == recomendacao[ppp]){
+					if (contador <=10){
+						contador += 1;
+						cout << "(" << listaprodutos[jjj].get_id() << ")" 
+						<<listaprodutos[jjj].get_nome() << "  **  " << "R$ " << fixed << setprecision(2) << listaprodutos[jjj].get_preco() <<
+	 					"  **  " << listaprodutos[jjj].get_quantidade() << endl;
+					}	
+				}
+					
+				else{
+					continue;
+				}
+			}	
+		}
+	}		
+}
+

@@ -7,6 +7,7 @@
 #include "cliente.hpp"
 #include "vectorprodutos.hpp"
 #include "criarprodutos.hpp"
+#include "recomendacao.hpp"
 
 using namespace std;
 
@@ -140,7 +141,7 @@ int main(){
 				system("clear");
 
 				string temp_nome;	
-				char temp_socio;
+				char temp_socio = 'N';
 
 				cout << "============================================================" << endl;
 				cout << "\t\t\tCadastro de novo Usuário\t\t\t" << endl;
@@ -202,6 +203,11 @@ int main(){
 			}
 			break;
 		}
+		case 3:{
+			Recomendacao rec;
+			break;
+		}
+
 		default:
 			cout << "opção errada\n";
 			break;

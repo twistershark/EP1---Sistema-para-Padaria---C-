@@ -10,6 +10,7 @@ class Venda{
 
 public:
 	Venda(Cliente *);
+	Venda(Cliente *, vector<string>&);
 	void add_produto();
 	void set_infocliente(Cliente *);
 	char get_socio();

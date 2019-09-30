@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include <cstring>
+#include <sstream>
 
 using namespace std;
 
@@ -124,9 +125,33 @@ string CriarProdutos::CriarCategorias(){
 	string entrada;
 	getline(cin >> ws, entrada);
 
+	vector<string> catIndividual;
+	vector<int> verific;
+
 	// transformando entrada para uppercase
 	for(unsigned int l = 0; l < entrada.length(); l++){
 		entrada[l] = toupper(entrada[l]);	
+	}
+
+	istringstream iss(entrada);
+	for(string entrada; iss >> entrada;){
+		catIndividual.push_back(entrada);
+	}
+
+	for(unsigned int wq = 0; wq < catIndividual.size(); wq++){
+		verific.push_back(count(categorias.begin(), categorias.end(), catIndividual[wq]));
+		if(verific[wq] == 0){
+			categorias.push_back(catIndividual[wq]);
+		}
+	}
+
+	//Salvando no arquivo
+	cat.open("./db/etc/categorias.txt");
+	if(cat.is_open()){
+		for(unsigned int pv = 0; pv < categorias.size(); pv++){
+			cat << categorias[pv] << endl;
+		}
+		cat.close();
 	}
 
 	return entrada;
