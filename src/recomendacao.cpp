@@ -34,7 +34,8 @@ Recomendacao::Recomendacao(){
 			if(linha == 3) temp_cpf = texto;
 		}
 
-		
+	
+
 	Cliente* cliente = new Cliente(temp_socio, temp_nome, temp_cpf);
 
 
@@ -52,43 +53,55 @@ Recomendacao::Recomendacao(){
 		}
 	}
 
-	// Carregando vector com categorias existentes
-	vector<string> categoriasExistentes;
-	fstream arquivoCategorias;
-	arquivoCategorias.open("./db/etc/categorias.txt");
-	if(arquivoCategorias.is_open()){
-		string gettingCategorias;
-		while(arquivoCategorias >> gettingCategorias){
-			categoriasExistentes.push_back(gettingCategorias);	
-		}
-	}
-	// Verificando categoria com mais compra
-
-	vector<int> contadorCompras;
-	vector<int> copiaContadorCompras;
-	for (unsigned int lp = 0; lp < categoriasExistentes.size(); lp++){
-		contadorCompras.push_back(count(categoriasEntrada.begin(), categoriasEntrada.end(),
-		 categoriasExistentes[lp]));
-		copiaContadorCompras.push_back(count(categoriasEntrada.begin(), categoriasEntrada.end(),
-		 categoriasExistentes[lp]));
+	// verificando se o cliente ainda não fez nenhuma compra
+	if (categoriasEntrada.size() == 0){
+		cout << "Cliente não fez nenhuma compra na loja!\nÉ necessário que ele efetue ao menos uma compra antes de usar o Modo Recomendação." << endl;
 	}
 
+	else{
 
-	//Ordenando vector do maior para o menor
-
-
-	sort(contadorCompras.rbegin(), contadorCompras.rend());
-
-	vector<string> recomendados;
-
-	for (unsigned int lpp = 0; lpp < categoriasExistentes.size(); lpp++){
-		for (unsigned int ppl = 0; ppl < categoriasExistentes.size(); ppl++){
-			if(contadorCompras[lpp] == copiaContadorCompras[ppl]){
-				recomendados.push_back(categoriasExistentes[ppl]);
+		// Carregando vector com categorias existentes
+		vector<string> categoriasExistentes;
+		fstream arquivoCategorias;
+		arquivoCategorias.open("./db/etc/categorias.txt");
+		if(arquivoCategorias.is_open()){
+			string gettingCategorias;
+			while(arquivoCategorias >> gettingCategorias){
+				categoriasExistentes.push_back(gettingCategorias);	
 			}
 		}
-	}
+		// Verificando categoria com mais compra
 
-	Venda venda(cliente, recomendados);
+		vector<int> contadorCompras;
+		vector<int> copiaContadorCompras;
+		for (unsigned int lp = 0; lp < categoriasExistentes.size(); lp++){
+			contadorCompras.push_back(count(categoriasEntrada.begin(), categoriasEntrada.end(),
+			 categoriasExistentes[lp]));
+			copiaContadorCompras.push_back(count(categoriasEntrada.begin(), categoriasEntrada.end(),
+			 categoriasExistentes[lp]));
+		}
+
+
+		//Ordenando vector do maior para o menor
+
+
+		sort(contadorCompras.rbegin(), contadorCompras.rend());
+
+		vector<string> recomendados;
+
+		for (unsigned int lpp = 0; lpp < categoriasExistentes.size(); lpp++){
+			for (unsigned int ppl = 0; ppl < categoriasExistentes.size(); ppl++){
+				if(contadorCompras[lpp] == copiaContadorCompras[ppl]){
+					recomendados.push_back(categoriasExistentes[ppl]);
+				}
+			}
+		}
+
+		Venda venda(cliente, recomendados);
+	}	
+	}
+	else{
+		cout << "Cliente ainda não possui cadastro.\nÉ necessário efetuar o cadastro e ao menos um compra antes de usar o modo recomendação" << endl;
 	}
 }
+	
