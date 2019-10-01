@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 
 #include "produtos.hpp"
 #include "venda.hpp"

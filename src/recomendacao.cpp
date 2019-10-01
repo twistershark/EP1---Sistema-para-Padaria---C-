@@ -83,7 +83,6 @@ Recomendacao::Recomendacao(){
 			 categoriasExistentes[lp]));
 		}
 
-
 		//Ordenando vector do maior para o menor
 
 
@@ -95,15 +94,16 @@ Recomendacao::Recomendacao(){
 			for (unsigned int ppl = 0; ppl < categoriasExistentes.size(); ppl++){
 				if(contadorCompras[lpp] == copiaContadorCompras[ppl]){
 					recomendados.push_back(categoriasExistentes[ppl]);
-				}
+					copiaContadorCompras[ppl] = -10;					
 			}
 		}
-
+	}
 		Venda venda(cliente, recomendados);
-	}	
+		}	
 	}
 	else{
 		cout << "Cliente ainda não possui cadastro.\nÉ necessário efetuar o cadastro e ao menos um compra antes de usar o modo recomendação" << endl;
 	}
 }
+
 	
