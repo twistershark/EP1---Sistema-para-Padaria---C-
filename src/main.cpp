@@ -75,6 +75,9 @@ int main(){
 		cout << "Digite o CPF do cliente (somente números): ";
 		cin >> cpf;
 
+		cpf.erase(remove(cpf.begin(), cpf.end(), '.'), cpf.end());
+		cpf.erase(remove(cpf.begin(), cpf.end(), '-'), cpf.end());
+
 		// VERIFICANDO SE O CLIENTE JÁ EXISTE
 			string end_cpf = cpf;
 			end_cpf += ".txt";

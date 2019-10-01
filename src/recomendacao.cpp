@@ -16,6 +16,8 @@ Recomendacao::Recomendacao(){
 	string cpf;
 	cout << "Digite o CPF do cliente (somente números): ";
 	cin >> cpf;
+	cpf.erase(remove(cpf.begin(), cpf.end(), '.'), cpf.end());
+	cpf.erase(remove(cpf.begin(), cpf.end(), '-'), cpf.end());
 
 	string end_cliente = "./db/clientes/" + cpf + ".txt";
 
